@@ -1,55 +1,59 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./src/output.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/master.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./src/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/master.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<div class="container h-auto flex justify-around mt-3">
-    <div class="left-side">
-    </div>
-    <div class="right-side bg-gray-300 m-2 p-4 rounded-xl">
-        <div id="container-right">
+    <div class="container h-auto flex justify-around mt-3">
+        <div class="left-side">
+        </div>
+        <div class="right-side bg-gray-300 m-2 p-4 rounded-xl">
+            <div id="container-right">
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    const leftSide = document.querySelector('.left-side')
-fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(data => {
-    let usersHtml =''
-for(const user of data){
-usersHtml += `
-        <div class="information" onclick="postAPI(this,${user.id})">
+    <script>
+        const leftSide = document.querySelector('.left-side')
+        fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(data => {
+            let usersHtml = ''
+            for (const user of data) {
+                usersHtml += `
+        <div class="information" onclick="postAPI(${user.id})">
             <h3 class="md:text-[15px] sm:text-[14px] ">${user.name}</h3>
             <p class="md:hidden sm:hidden">${user.email}</p>
         </div>
 `;
-}
-leftSide.innerHTML = usersHtml;
-})
-.catch(error => console.log(error));
+            }
+            leftSide.innerHTML = usersHtml;
+        })
+            .catch(error => console.log(error));
 
-function postAPI (div,id){
-    const containerRight = document.getElementById("container-right");
-fetch('https://jsonplaceholder.typicode.com/posts?userId='+ id).then(response => response.json()).then(data =>{
-let userHTML ='';
-for(const rigthSide of data){
-    userHTML +=`
+        function postAPI(id) {
+            const containerRight = document.getElementById("container-right");
+            fetch('https://jsonplaceholder.typicode.com/posts?userId=' + id).then(response => response.json()).then(data => {
+                let userHTML = '';
+                for (const rigthSide of data) {
+                    userHTML += `
     <div class="information-active rounded-2xl p-4 bg-white shadow-md mb-2">
         <h1>${rigthSide.title}</h1>
          <p>${rigthSide.body}</p>   
         </div>
     `
-}
-containerRight.innerHTML = userHTML;
-});
-}
-</script>
+                }
+                containerRight.innerHTML = userHTML;
+            })
+            .catch(error => console.error(error));
+        }
+    </script>
 </body>
+
 </html>
