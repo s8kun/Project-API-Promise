@@ -22,12 +22,13 @@
     </div>
 
     <script>
+        let activeWork = null;
         const leftSide = document.querySelector('.left-side')
         fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json()).then(data => {
             let usersHtml = ''
             for (const user of data) {
                 usersHtml += `
-        <div class="information" onclick="postAPI(${user.id})">
+        <div class="information" onclick="postAPI(this,${user.id})">
             <h3 class="md:text-[15px] sm:text-[14px] ">${user.name}</h3>
             <p class="md:hidden sm:hidden">${user.email}</p>
         </div>
@@ -37,7 +38,8 @@
         })
             .catch(error => console.log(error));
 
-        function postAPI(id) {
+        function postAPI(div,id) {
+            active(div)
             const containerRight = document.getElementById("container-right");
             fetch('https://jsonplaceholder.typicode.com/posts?userId=' + id).then(response => response.json()).then(data => {
                 let userHTML = '';
@@ -52,6 +54,14 @@
                 containerRight.innerHTML = userHTML;
             })
             .catch(error => console.error(error));
+        }
+
+        function active(div){
+            document.querySelectorAll('.active').forEach(element =>{
+                element.classList.remove('active');
+            });
+                div.classList.add("active");
+            
         }
     </script>
 </body>
